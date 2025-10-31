@@ -11,5 +11,7 @@ public partial class Category
 
     public string? Description { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual ICollection<SubCategory> SubCategories { get; set; } = new List<SubCategory>();
 }

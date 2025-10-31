@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Eproject2025.Models.SubCategory>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+@{
+    ViewData["Title"] = "Subcategory List";
+}
+
+<h2>@ViewBag.CategoryName - Subcategories</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Subcategory ID</th>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.SubcategoryId</td>
+                <td>@item.SubcategoryName</td>
+                <td>@item.Manufacturer</td>
+                <td>@item.Status</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Category</a>
