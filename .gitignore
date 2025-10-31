@@ -1,0 +1,25 @@
+# Build folders
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio cache
+.vs/
+
+# ASP.NET temporary files
+aspnet_client/
+
+# Publish output
+/publish/
+wwwroot/lib/
+
+# Logs
+*.log
+
+# Environment settings
+appsettings.Development.json
