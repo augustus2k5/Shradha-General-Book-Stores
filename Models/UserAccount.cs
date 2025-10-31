@@ -15,6 +15,8 @@ public partial class UserAccount
 
     public string? Email { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual Admin? Admin { get; set; }
 
     public virtual Customer? Customer { get; set; }

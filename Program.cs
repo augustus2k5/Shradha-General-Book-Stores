@@ -1,3 +1,6 @@
+using Eproject2025.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace Eproject2025
 {
     public class Program
@@ -5,6 +8,8 @@ namespace Eproject2025
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<OnlineBookStoreContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

@@ -25,6 +25,8 @@ public partial class Product
 
     public string? ImageUrl { get; set; }
 
+    public string? Status { get; set; }
+
     public virtual BookDetail? BookDetail { get; set; }
 
     public virtual Cddetail? Cddetail { get; set; }

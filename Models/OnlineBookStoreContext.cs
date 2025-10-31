@@ -45,7 +45,7 @@ public partial class OnlineBookStoreContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("server=localhost;database=Online_BookStore;uid=sa;pwd=hai03112k5;TrustServerCertificate=true;MultipleActiveResultSets=true");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=Online_BookStore;User Id=sa;Password=hai03112k5;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -99,7 +99,7 @@ public partial class OnlineBookStoreContext : DbContext
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Category__D54EE9B47F4E5D37");
 
-            entity.ToTable("Category");
+            entity.ToTable("Category", tb => tb.HasTrigger("trg_UpdateSubCategoryStatus"));
 
             entity.Property(e => e.CategoryId)
                 .HasMaxLength(2)
@@ -113,6 +113,11 @@ public partial class OnlineBookStoreContext : DbContext
             entity.Property(e => e.Description)
                 .HasColumnType("text")
                 .HasColumnName("description");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValue("Active")
+                .HasColumnName("status");
         });
 
         modelBuilder.Entity<Cddetail>(entity =>
@@ -364,6 +369,11 @@ public partial class OnlineBookStoreContext : DbContext
                 .HasColumnType("decimal(10, 2)")
                 .HasColumnName("price");
             entity.Property(e => e.PublisherId).HasColumnName("publisher_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValue("Active")
+                .HasColumnName("status");
             entity.Property(e => e.Stock)
                 .HasDefaultValue(0)
                 .HasColumnName("stock");
@@ -409,7 +419,7 @@ public partial class OnlineBookStoreContext : DbContext
         {
             entity.HasKey(e => e.SubcategoryId).HasName("PK__SubCateg__F7A5CC2652E8F7F6");
 
-            entity.ToTable("SubCategory");
+            entity.ToTable("SubCategory", tb => tb.HasTrigger("trg_UpdateProductStatus"));
 
             entity.Property(e => e.SubcategoryId)
                 .HasMaxLength(5)
@@ -425,6 +435,11 @@ public partial class OnlineBookStoreContext : DbContext
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasColumnName("manufacturer");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValue("Active")
+                .HasColumnName("status");
             entity.Property(e => e.SubcategoryName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -456,6 +471,11 @@ public partial class OnlineBookStoreContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("role");
+            entity.Property(e => e.Status)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasDefaultValue("Active")
+                .HasColumnName("status");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false)
