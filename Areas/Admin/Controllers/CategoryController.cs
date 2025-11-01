@@ -49,7 +49,7 @@ namespace Eproject2025.Areas.Admin.Controllers
             }
 
             ViewBag.CategoryName = category.CategoryName;
-            return View(category.SubCategories.ToList());
+            return View("~/Areas/Admin/Views/SubCategory/ViewSubCategory.cshtml", category.SubCategories.ToList());
         }
 
         [HttpGet]
