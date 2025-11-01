@@ -1,4 +1,5 @@
-﻿using Eproject2025.Models;
+﻿using Eproject2025.DTOs;
+using Eproject2025.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,19 @@ namespace Eproject2025.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly OnlineBookStoreContext _context;
+        private string GenerateCategoryId()
+        {
+            var random = new Random();
+
+            // Tạo ký tự đầu là chữ cái A-Z
+            char letter = (char)('A' + random.Next(0, 26));
+
+            // Ký tự thứ hai là số 0-9
+            int digit = random.Next(0, 10);
+
+            return $"{letter}{digit}";
+        }
+
         public CategoryController(OnlineBookStoreContext context)
         {
             _context = context;
@@ -36,6 +50,47 @@ namespace Eproject2025.Areas.Admin.Controllers
 
             ViewBag.CategoryName = category.CategoryName;
             return View(category.SubCategories.ToList());
+        }
+
+        [HttpGet]
+        public IActionResult AddCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddCategory(CategoryDTO categoryDTO)
+        {
+            if(!ModelState.IsValid)
+            {
+                var allErrors = ModelState.Values
+        .SelectMany(v => v.Errors)
+        .Select(e => e.ErrorMessage)
+        .ToList();
+
+                // Gửi lỗi sang View
+                ViewBag.ValidationErrors = allErrors;
+                return View(categoryDTO);
+            }
+
+            string newId;
+            do
+            {
+                newId = GenerateCategoryId();
+            }
+            while (_context.Categories.Any(c => c.CategoryId == newId));
+
+            var category = new Category
+            {
+                CategoryId = newId,
+                CategoryName = categoryDTO.CategoryName,
+                Description = categoryDTO.Description,
+                Status = categoryDTO.Status ?? "Active"
+            };
+
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
     }
