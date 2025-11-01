@@ -93,5 +93,38 @@ namespace Eproject2025.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditCategory(string id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            var dto = new CategoryDTO
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                Description = category.Description,
+                Status = category.Status
+            };
+            return View(dto);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCategory(CategoryDTO categoryDTO)
+        {
+            if (!ModelState.IsValid)
+                return View(categoryDTO);
+
+            var category = await _context.Categories.FindAsync(categoryDTO.CategoryId);
+            if (category == null) return NotFound();
+
+            category.CategoryName = categoryDTO.CategoryName;
+            category.Description = categoryDTO.Description;
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
