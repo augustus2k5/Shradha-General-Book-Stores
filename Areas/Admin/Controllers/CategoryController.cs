@@ -126,5 +126,23 @@ namespace Eproject2025.Areas.Admin.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ToggleStatus(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest();
+
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+                return NotFound();
+
+            category.Status = category.Status == "Active" ? "Inactive" : "Active";
+
+            _context.Categories.Update(category);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
     }
 }

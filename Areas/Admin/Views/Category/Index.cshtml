@@ -31,7 +31,7 @@
                             Edit
                         </a>
                         <a asp-action="ToggleStatus" asp-route-id="@category.CategoryId" class="btn btn-secondary btn-sm">
-                            Status
+                            @(category.Status == "Active" ? "Deactivate" : "Activate")
                         </a>
                     </div>
                 </td>
